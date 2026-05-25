@@ -26,7 +26,7 @@ export const GRADIENTS = {
   tableHeader: `linear-gradient(90deg, ${COLORS.red1} 0%, #A30068 100%)`,
 } as const;
 
-export const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+export const API_URL = import.meta.env.VITE_API_URL || "monitoring-innovation-backend-production.up.railway.app";
 
 export const ASSETS = {
   logo: "/assets/logo-mi.png",

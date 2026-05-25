@@ -1,7 +1,9 @@
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";
+import ConnectionBanner from "./components/ConnectionBanner";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -13,11 +15,17 @@ import Users from "./pages/Users";
 import Catalogo from "./pages/Catalogo";
 import Perfil from "./pages/Perfil";
 import Splash from "./pages/mobile/Splash";
+import { pingHealth } from "./api/client";
 
 export default function App() {
+  useEffect(() => {
+    pingHealth();
+  }, []);
+
   return (
     <BrowserRouter>
       <AuthProvider>
+        <ConnectionBanner />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/splash" element={<Splash />} />

@@ -20,7 +20,7 @@ export default function Register() {
   const [touched, setTouched] = useState({ first: false, last: false, email: false, user: false, pass: false, confirm: false });
   const [val, setVal] = useState<Record<string, ValidationResult | null>>({ first: null, last: null, email: null, user: null, pass: null, confirm: null });
 
-  const setField = (field: string, v: string, result: ValidationResult) => {
+  const setField = (field: string, _v: string, result: ValidationResult) => {
     if (touched[field as keyof typeof touched]) setVal(p => ({ ...p, [field]: result }));
   };
 

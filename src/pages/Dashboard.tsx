@@ -36,7 +36,7 @@ export default function Dashboard() {
   const touch = (f: string) => { setFieldTouch(p => ({ ...p, [f]: true })); };
 
   const [toast, setToast] = useState("");
-  const toastTimer = useRef<ReturnType<typeof setTimeout>>();
+  const toastTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 

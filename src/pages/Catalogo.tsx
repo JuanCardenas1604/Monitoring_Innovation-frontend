@@ -13,7 +13,7 @@ const FALLBACK_IMAGES = [
   "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=900&q=70",
 ];
 
-function imageFor(v: Vehicle, idx: number): string {
+function imageFor(_v: Vehicle, idx: number): string {
   return FALLBACK_IMAGES[idx % FALLBACK_IMAGES.length];
 }
 

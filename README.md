@@ -60,4 +60,4 @@ La aplicación estará disponible en `http://localhost:5173`.
 
 ## Prueba técnica
 
-Proyecto académico — Monitoring Innovation.
+Proyecto — Monitoring Innovation.

@@ -1,0 +1,543 @@
+/* ─────────────────────────────────────────────────────────────
+   MOBILE LAYOUTS · Activos en pantallas ≤ 768px (clase .m-*)
+   Paleta:
+     blue1  #00249C   blue2  #40CEE4
+     red1   #C6007E   red2   #E280BE   grey1 #C5C5C5
+   ───────────────────────────────────────────────────────────── */
+
+.m-shell {
+  position: relative;
+  min-height: 100vh;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 76px;
+  overflow-x: hidden;
+}
+
+.m-shell-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 18px 24px;
+  flex: 1;
+}
+
+/* ─── Top decorative blob with side watermark title ─── */
+.m-topblob {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  pointer-events: none;
+  user-select: none;
+}
+.m-topblob-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.m-topblob-title {
+  position: absolute;
+  top: 18px;
+  left: 20px;
+  font-family: var(--font);
+  font-weight: 800;
+  font-size: 2.6rem;
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+  max-width: 90px;
+  word-break: break-all;
+  color: transparent;
+  -webkit-text-stroke: 1.2px rgba(255, 255, 255, 0.85);
+  text-shadow:
+    0 0 1px rgba(255, 255, 255, 0.45),
+    1px 1px 0 rgba(255, 255, 255, 0.25);
+  z-index: 1;
+}
+
+/* ─── Bottom decorative wave blob (Perfil) ─── */
+.m-bottomblob {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 76px;
+  height: 110px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ─── Bottom navigation ─── */
+.m-bottomnav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  display: flex;
+  background: #fff;
+  border-top: 1px solid #f0f0f0;
+  box-shadow: 0 -4px 18px rgba(0, 36, 156, 0.05);
+  padding: 6px 0 8px;
+}
+.m-bottomnav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 4px;
+  color: var(--grey1);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: color 0.18s ease;
+}
+.m-bottomnav-item.active {
+  color: var(--blue1);
+}
+.m-bottomnav-item.active svg {
+  color: var(--blue2);
+}
+.m-bottomnav-item svg {
+  transition: color 0.18s ease;
+}
+
+/* ─── Form card (CRUD entry box) ─── */
+.m-formcard {
+  position: relative;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 22px rgba(0, 36, 156, 0.10);
+  padding: 16px 18px 18px;
+  margin-top: -32px;
+  margin-left: 12px;
+  margin-right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 3;
+}
+.m-formcard-header {
+  display: flex;
+  align-items: center;
+}
+.m-formcard-plus {
+  background: none;
+  border: none;
+  color: var(--blue2);
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1;
+  padding: 0 6px;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.m-formcard-plus:disabled {
+  color: var(--grey1);
+  cursor: not-allowed;
+}
+.m-formcard-plus:hover:not(:disabled) { transform: rotate(90deg) scale(1.1); }
+
+.m-formrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.m-formrow-icon {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  color: var(--grey1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.m-formrow-input {
+  flex: 1;
+  padding: 8px 16px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 22px;
+  font-family: var(--font);
+  font-size: 0.86rem;
+  color: #555;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.18s;
+}
+.m-formrow-input:focus { border-color: var(--blue2); }
+.m-formrow-input::placeholder { color: #c8c8c8; }
+.m-formrow-input:disabled { background: #fafafa; }
+
+.m-formcard-actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+/* ─── Compact mobile table ─── */
+.m-table-wrap {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.m-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.m-table thead th {
+  background: var(--red2);
+  color: #fff;
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-align: left;
+  padding: 8px 12px;
+  letter-spacing: 0.03em;
+}
+.m-table thead th:first-child { border-radius: 6px 0 0 6px; }
+.m-table thead th:last-child  { border-radius: 0 6px 6px 0; }
+.m-table tbody td {
+  padding: 8px 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #888;
+  border-bottom: 1px solid var(--pink-pale);
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.m-table tbody td:first-child {
+  color: #555;
+  font-weight: 700;
+}
+.m-table .m-row-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+}
+.m-table .m-row-actions button {
+  width: 22px;
+  height: 22px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.m-table .m-row-actions img { width: 18px; height: 18px; }
+
+/* ─── Edit modal with diagonal gradient ─── */
+.m-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 28, 60, 0.45);
+  backdrop-filter: blur(2px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+}
+.m-modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.m-modal-card {
+  width: 100%;
+  max-width: 320px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  border-radius: 22px;
+  padding: 24px 22px 22px;
+  background: linear-gradient(135deg, #E280BE 0%, #C6007E 35%, #5A2DAE 65%, #00249C 100%);
+  box-shadow: 0 20px 60px rgba(0, 36, 156, 0.35), inset 0 0 0 4px #fff;
+  transform: scale(0.96);
+  transition: transform 0.22s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.5) transparent;
+}
+.m-modal-card::-webkit-scrollbar { width: 6px; }
+.m-modal-card::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.5); border-radius: 3px; }
+.m-modal-overlay.open .m-modal-card { transform: scale(1); }
+.m-modal-input {
+  width: 100%;
+  padding: 11px 18px;
+  border: 2px solid #fff;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.96);
+  color: #333;
+  font-family: var(--font);
+  font-size: 0.92rem;
+  font-weight: 600;
+  outline: none;
+}
+.m-modal-input::placeholder { color: var(--grey1); }
+.m-modal-actions {
+  margin-top: 6px;
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+}
+.m-modal-btn {
+  width: 64px;
+  height: 56px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.98);
+  border: 2px solid var(--blue2);
+  color: var(--blue2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s;
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+.m-modal-btn:hover { transform: translateY(-2px); }
+.m-modal-btn svg { width: 28px; height: 28px; }
+
+/* ─── Mobile toasts (top floating) ─── */
+.m-toast {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translate(-50%, -120%);
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.10);
+  padding: 12px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  z-index: 300;
+  opacity: 0;
+  transition: opacity 0.25s ease, transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
+  min-width: 220px;
+}
+.m-toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+.m-toast-icon {
+  font-size: 1.3rem;
+  font-weight: 800;
+  display: flex;
+  gap: 4px;
+}
+.m-toast-text {
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.m-toast.success .m-toast-icon,
+.m-toast.success .m-toast-text { color: #7BD984; }
+.m-toast.error .m-toast-icon,
+.m-toast.error .m-toast-text { color: var(--red1); }
+
+/* ─── Catálogo ─── */
+.m-catalog {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-top: -10px;
+}
+.m-catcard {
+  background: linear-gradient(180deg, #40CEE4 0%, #d6f3f9 100%);
+  border-radius: 22px;
+  padding: 14px 14px 18px;
+  box-shadow: 0 8px 22px rgba(64, 206, 228, 0.18);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+}
+.m-catcard-img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 14px;
+  background: #c0d8e0;
+  object-fit: cover;
+  display: block;
+}
+.m-catcard-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+.m-catcard-name {
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--red1);
+}
+.m-catcard-check {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #fff;
+  border: 2px solid var(--blue2);
+  color: var(--blue2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.m-catcard-check.active {
+  background: var(--blue2);
+  color: #fff;
+}
+
+/* ─── Perfil ─── */
+.m-profile {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: stretch;
+  position: relative;
+}
+.m-profile-avatar {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  margin: 8px auto 0;
+  background: linear-gradient(135deg, #C6007E 0%, #5A2DAE 50%, #00249C 100%);
+  border: 6px solid #fff;
+  box-shadow: 0 12px 26px rgba(0, 36, 156, 0.20), 0 0 0 4px var(--blue2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.m-profile-avatar svg {
+  width: 100px;
+  height: 100px;
+  color: #fff;
+}
+.m-profile-avatar .m-status-dot {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #6EE07B;
+  border: 3px solid #fff;
+}
+.m-profile-status {
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.86rem;
+  color: #333;
+  margin-top: 4px;
+}
+.m-profile-section-title {
+  color: var(--blue2);
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-top: 14px;
+  margin-bottom: 6px;
+}
+.m-profile-item {
+  background: none;
+  border: none;
+  padding: 8px 0;
+  font-family: var(--font);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #555;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+}
+.m-profile-divider {
+  height: 1px;
+  background: repeating-linear-gradient(to right, var(--blue2) 0 6px, transparent 6px 12px);
+  margin: 12px 0;
+}
+
+/* ─── Splash screens ─── */
+.m-splash {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 28px;
+  z-index: 500;
+  transition: opacity 0.45s ease;
+}
+.m-splash.fade-out { opacity: 0; pointer-events: none; }
+.m-splash.gradient { background: linear-gradient(180deg, #C6007E 0%, #5A2DAE 50%, #40CEE4 100%); }
+.m-splash.welcome { background: #fff; }
+.m-splash .m-splash-logo { width: 200px; height: auto; }
+.m-splash .m-splash-iso { width: 120px; height: auto; }
+.m-splash-tagline {
+  color: var(--blue2);
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+.m-splash-title {
+  color: var(--blue1);
+  font-weight: 800;
+  font-size: 2rem;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-transform: uppercase;
+  margin-top: -16px;
+}
+.m-splash-btn {
+  border: 1.8px solid var(--blue2);
+  background: transparent;
+  border-radius: 28px;
+  padding: 10px 22px;
+  font-family: var(--font);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--blue2);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.m-splash-btn:hover { background: rgba(64, 206, 228, 0.08); }
+
+/* ─── Motion word logo (SVG inline replacement) ─── */
+.m-motion-logo {
+  font-family: var(--font);
+  font-weight: 800;
+  font-size: 3rem;
+  letter-spacing: 0.02em;
+  background: linear-gradient(135deg, #C6007E 0%, #5A2DAE 50%, #00249C 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.m-motion-logo.white {
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  color: #fff;
+}

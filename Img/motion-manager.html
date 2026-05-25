@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Motion Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #E91E8C;
+    --pink-light: #F06292;
+    --pink-pale: #FCE4EC;
+    --cyan: #00BCD4;
+    --cyan-light: #4DD0E1;
+    --cyan-pale: #E0F7FA;
+    --navy: #1A237E;
+    --navy-mid: #283593;
+    --gray-text: #9E9E9E;
+    --gray-light: #F5F5F5;
+    --white: #FFFFFF;
+    --border: #E0E0E0;
+    --shadow: 0 8px 32px rgba(0,0,0,0.10);
+    --shadow-card: 0 4px 20px rgba(0,0,0,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: #FAFAFA;
+    color: #333;
+    min-height: 100vh;
+  }
+
+  /* ─── SCREENS ─── */
+  .screen { display: none; width: 100%; min-height: 100vh; }
+  .screen.active { display: flex; }
+
+  /* ══════════════════════════════
+     SCREEN 1 — HOME / LANDING
+  ══════════════════════════════ */
+  #screen-home {
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .home-logo-top {
+    position: absolute;
+    top: 28px; left: 36px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .logo-icon {
+    width: 44px; height: 44px;
+  }
+  /* decorative blob right */
+  .home-blob {
+    position: absolute;
+    right: -60px; top: 50%;
+    transform: translateY(-50%);
+    width: 220px; height: 520px;
+    background: linear-gradient(135deg, #f5f5f5 60%, #e0e0e0 100%);
+    border-radius: 50% 0 0 50%;
+    z-index: 0;
+  }
+  .home-center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    z-index: 1;
+    padding: 80px 40px 40px;
+    text-align: center;
+    position: relative;
+  }
+  .home-phone-illustration {
+    width: 260px;
+    margin-bottom: 16px;
+  }
+  .home-headline {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    line-height: 1.0;
+    letter-spacing: 0.01em;
+    color: var(--navy);
+    text-transform: uppercase;
+  }
+  .home-headline span { color: var(--navy); }
+  .home-headline .highlight { color: var(--cyan); }
+  .home-subheadline {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
+    color: var(--navy);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-top: 4px;
+  }
+  .home-footer-nav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: clamp(24px, 5vw, 80px);
+    padding: 24px 32px 32px;
+    border-top: 1px solid #eee;
+    z-index: 1;
+    flex-wrap: wrap;
+  }
+  .home-footer-nav a {
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--pink);
+    cursor: pointer;
+    transition: color .2s;
+  }
+  .home-footer-nav a:hover { color: var(--navy); }
+  .home-footer-nav a.navy { color: var(--navy); }
+
+  /* Phone SVG illustration */
+  .phone-svg {
+    filter: drop-shadow(0 12px 32px rgba(0,188,212,0.18));
+  }
+
+  /* ══════════════════════════════
+     SCREEN 2 — LOGIN
+  ══════════════════════════════ */
+  #screen-login {
+    flex-direction: row;
+    position: relative;
+    background: #fff;
+    overflow: hidden;
+  }
+  .login-bg {
+    position: absolute; inset: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900"><rect width="1440" height="900" fill="%23f0f4f8"/><ellipse cx="1300" cy="450" rx="320" ry="420" fill="%23ffffff" opacity="0.9"/></svg>') center/cover no-repeat;
+    z-index: 0;
+  }
+  .login-bg-cars {
+    position: absolute; inset: 0;
+    background: linear-gradient(120deg, rgba(224,242,254,0.7) 0%, rgba(252,228,236,0.5) 100%);
+    z-index: 0;
+  }
+  .login-blob-right {
+    position: absolute;
+    right: -40px; top: 50%;
+    transform: translateY(-50%);
+    width: 340px; height: 640px;
+    background: #fff;
+    border-radius: 50% 0 0 50%;
+    box-shadow: -8px 0 40px rgba(0,0,0,0.06);
+    z-index: 0;
+  }
+  .login-corner-logo {
+    position: absolute; top: 24px; left: 32px;
+    z-index: 10;
+  }
+  .login-card {
+    position: relative;
+    z-index: 5;
+    margin: auto;
+    background: rgba(255,255,255,0.97);
+    border-radius: 24px;
+    box-shadow: 0 8px 48px rgba(0,0,0,0.13);
+    padding: 40px 48px 36px;
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .login-brand {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 32px;
+  }
+  .login-brand-divider {
+    width: 2px; height: 48px;
+    background: linear-gradient(to bottom, var(--pink), var(--cyan));
+    border-radius: 2px;
+  }
+  .login-brand-text {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 2rem;
+    color: var(--navy);
+    letter-spacing: -0.01em;
+  }
+  .login-field-group {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .login-label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-bottom: 6px;
+  }
+  .login-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid var(--cyan);
+    border-radius: 10px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    color: var(--gray-text);
+    background: #fff;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .login-input:focus {
+    border-color: var(--pink);
+    box-shadow: 0 0 0 3px rgba(233,30,140,0.08);
+  }
+  .login-btn-primary {
+    display: block;
+    margin: 8px auto 20px;
+    padding: 12px 36px;
+    border: 2px solid var(--cyan);
+    border-radius: 30px;
+    background: transparent;
+    color: var(--navy);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all .2s;
+    letter-spacing: 0.01em;
+  }
+  .login-btn-primary:hover {
+    background: var(--cyan);
+    color: #fff;
+    box-shadow: 0 4px 18px rgba(0,188,212,0.28);
+  }
+  .login-links {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.88rem;
+    margin-bottom: 28px;
+  }
+  .login-links a {
+    text-decoration: none;
+    color: var(--pink);
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity .2s;
+  }
+  .login-links a:hover { opacity: .75; }
+  .login-links a .bold { font-weight: 800; }
+  .login-links a.register { color: var(--pink); }
+  .login-bottom-icons {
+    display: flex; gap: 16px; justify-content: center;
+  }
+  .login-icon-btn {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.9);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.10);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 1.4rem;
+    transition: box-shadow .2s, transform .15s;
+  }
+  .login-icon-btn:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.14); transform: scale(1.07); }
+
+  /* ══════════════════════════════
+     SCREEN 3 — PASSWORD RECOVERY
+  ══════════════════════════════ */
+  #screen-recovery {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: linear-gradient(135deg, #e0f7fa 0%, #fce4ec 100%);
+    overflow: hidden;
+  }
+  .recovery-blob-bottom {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 120px;
+    background: var(--cyan);
+    border-radius: 60% 60% 0 0 / 40px 40px 0 0;
+  }
+  .recovery-card {
+    position: relative; z-index: 2;
+    background: rgba(255,255,255,0.97);
+    border-radius: 24px;
+    box-shadow: 0 8px 48px rgba(0,0,0,0.13);
+    padding: 40px 48px 36px;
+    width: 100%; max-width: 480px;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .recovery-text {
+    font-size: 0.95rem;
+    color: #555;
+    text-align: left;
+    width: 100%;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+  .back-btn {
+    position: absolute;
+    bottom: 140px; left: 50%;
+    transform: translateX(calc(-50% + -100px));
+    background: var(--pink);
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 22px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.92rem;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+    z-index: 3;
+    transition: opacity .2s;
+  }
+  .back-btn:hover { opacity: .85; }
+
+  /* ══════════════════════════════
+     SCREEN 4 — REGISTER
+  ══════════════════════════════ */
+  #screen-register {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: linear-gradient(135deg, #fce4ec 0%, #f8f8ff 100%);
+    overflow: hidden;
+  }
+  .register-blob-bottom {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 120px;
+    background: var(--pink);
+    border-radius: 60% 60% 0 0 / 40px 40px 0 0;
+  }
+  .register-card {
+    position: relative; z-index: 2;
+    background: rgba(255,255,255,0.97);
+    border-radius: 24px;
+    box-shadow: 0 8px 48px rgba(0,0,0,0.13);
+    padding: 36px 48px 32px;
+    width: 100%; max-width: 480px;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .register-name-row {
+    display: flex; gap: 16px; align-items: center; width: 100%; margin-bottom: 20px;
+  }
+  .register-name-row .login-field-group { flex: 1; margin-bottom: 0; }
+  .plus-icon {
+    font-size: 1.5rem; color: var(--gray-text); font-weight: 300; margin-top: 20px; flex-shrink: 0;
+  }
+  .register-terms {
+    font-size: 0.78rem; color: #888; text-align: center; margin: 14px 0 20px; line-height: 1.5;
+  }
+  .register-terms a { color: var(--pink); text-decoration: none; font-weight: 700; }
+  .register-footer {
+    width: 100%;
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  }
+  .btn-back-pink {
+    background: var(--pink);
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 22px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.92rem;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+    transition: opacity .2s;
+  }
+  .btn-back-pink:hover { opacity: .85; }
+  .btn-register {
+    flex: 1;
+    padding: 12px 20px;
+    border: 2px solid var(--cyan);
+    border-radius: 30px;
+    background: transparent;
+    color: var(--navy);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .btn-register:hover { background: var(--cyan); color: #fff; }
+
+  /* ══════════════════════════════
+     SCREEN 5 — MAIN / DASHBOARD
+  ══════════════════════════════ */
+  #screen-main {
+    flex-direction: row;
+    align-items: flex-start;
+    background: #fff;
+    padding: 48px 64px;
+    gap: 64px;
+  }
+
+  /* LEFT PANEL — Create/Edit Form */
+  .left-panel {
+    width: 340px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  /* Create Card */
+  .create-card {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: var(--shadow-card);
+    padding: 28px 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+  }
+  .create-card-header {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 4px;
+  }
+  .btn-add {
+    background: none; border: none;
+    color: var(--cyan);
+    font-size: 1.6rem; font-weight: 700;
+    cursor: pointer;
+    line-height: 1;
+    transition: transform .15s;
+  }
+  .btn-add:hover { transform: scale(1.18) rotate(90deg); }
+  .field-row {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .field-icon {
+    width: 28px; height: 28px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .field-icon svg { width: 22px; height: 22px; }
+  .field-icon.gray svg { fill: #BDBDBD; }
+  .field-icon.pink svg { fill: var(--pink); }
+  .field-input {
+    flex: 1;
+    padding: 10px 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 30px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    color: #555;
+    background: #fff;
+    outline: none;
+    transition: border-color .2s;
+  }
+  .field-input:focus { border-color: var(--pink); }
+  .card-actions {
+    display: flex; gap: 12px; justify-content: flex-end;
+    margin-top: 4px;
+  }
+  /* Default state: no buttons shown */
+  .card-actions.hidden { display: none; }
+  /* Variant 1: text buttons */
+  .card-actions.text-btns { display: flex; }
+  /* Variant 2: icon buttons */
+  .card-actions.icon-btns { display: flex; }
+
+  .btn-cancel {
+    padding: 9px 22px;
+    border: 1.5px solid var(--pink);
+    border-radius: 30px;
+    background: transparent;
+    color: #888;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700; font-size: 0.88rem;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .btn-cancel:hover { background: var(--pink-pale); }
+  .btn-crear {
+    padding: 9px 22px;
+    border: 1.5px solid var(--cyan);
+    border-radius: 30px;
+    background: transparent;
+    color: #555;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700; font-size: 0.88rem;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .btn-crear:hover { background: var(--cyan); color: #fff; }
+
+  .btn-icon-cancel {
+    width: 38px; height: 38px; border-radius: 50%;
+    border: none; background: var(--pink);
+    color: #fff; font-size: 1.2rem;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: opacity .2s;
+  }
+  .btn-icon-cancel:hover { opacity: .8; }
+  .btn-icon-confirm {
+    width: 38px; height: 38px; border-radius: 50%;
+    border: none; background: var(--cyan);
+    color: #fff; font-size: 1.2rem;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: opacity .2s;
+  }
+  .btn-icon-confirm:hover { opacity: .8; }
+
+  /* Motion logo at bottom */
+  .motion-logo-bottom {
+    margin-top: 40px;
+    display: flex; justify-content: center;
+  }
+
+  /* RIGHT PANEL — Table */
+  .right-panel { flex: 1; }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .data-table thead tr {
+    background: linear-gradient(90deg, var(--pink) 0%, #d81b9a 100%);
+  }
+  .data-table thead th {
+    padding: 12px 16px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #fff;
+    text-align: left;
+    letter-spacing: 0.03em;
+  }
+  .data-table thead th:last-child { text-align: right; }
+  .data-table tbody tr {
+    border-bottom: 1.5px solid var(--pink-pale);
+    transition: background .15s;
+  }
+  .data-table tbody tr:hover { background: #fdf2f8; }
+  .data-table tbody td {
+    padding: 12px 16px;
+    font-size: 0.92rem;
+    color: #888;
+    font-weight: 600;
+  }
+  .data-table tbody td:first-child { color: #555; font-weight: 700; }
+  .row-actions { display: flex; gap: 8px; justify-content: flex-end; align-items: center; }
+
+  .btn-edit-row {
+    background: none; border: none;
+    cursor: pointer; padding: 2px;
+    transition: transform .15s;
+    color: var(--cyan);
+    font-size: 1.2rem;
+  }
+  .btn-edit-row:hover { transform: scale(1.18); }
+  .btn-delete-row {
+    background: none; border: none;
+    cursor: pointer; padding: 2px;
+    transition: transform .15s;
+    color: var(--pink);
+    font-size: 1.2rem;
+  }
+  .btn-delete-row:hover { transform: scale(1.18); }
+  /* Inactive (grayed) action icons */
+  .btn-edit-row.inactive { color: #ccc; }
+  .btn-delete-row.inactive { color: #ccc; }
+
+  /* Motion logo text SVG */
+  .motion-logo-svg text { font-family: 'Rajdhani', sans-serif; }
+
+  /* ─── TOAST ─── */
+  #toast {
+    position: fixed;
+    bottom: 32px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--navy);
+    color: #fff;
+    padding: 12px 28px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 0.92rem;
+    z-index: 9999;
+    transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  #toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ─── NAV TABS ─── */
+  .nav-tabs {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(8px);
+    border-bottom: 1.5px solid #eee;
+    padding: 0 32px;
+    gap: 4px;
+    height: 52px;
+    align-items: flex-end;
+  }
+  .nav-tab {
+    padding: 10px 18px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #aaa;
+    cursor: pointer;
+    border: none; background: none;
+    border-bottom: 3px solid transparent;
+    transition: color .2s, border-color .2s;
+    margin-bottom: -1.5px;
+  }
+  .nav-tab.active { color: var(--pink); border-bottom-color: var(--pink); }
+  .nav-tab:hover:not(.active) { color: var(--navy); }
+
+  body.has-nav .screen.active { padding-top: 52px; }
+
+  /* ─── MODAL DELETE CONFIRM ─── */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 200;
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: #fff;
+    border-radius: 20px;
+    padding: 32px 36px;
+    max-width: 360px; width: 90%;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.18);
+    text-align: center;
+  }
+  .modal-title {
+    font-weight: 800; font-size: 1.15rem; color: var(--navy); margin-bottom: 10px;
+  }
+  .modal-sub { font-size: 0.92rem; color: #888; margin-bottom: 24px; }
+  .modal-btns { display: flex; gap: 12px; justify-content: center; }
+  .modal-btn-cancel {
+    padding: 10px 28px; border: 1.5px solid #ccc; border-radius: 30px;
+    background: transparent; color: #888; font-family: 'Nunito', sans-serif;
+    font-weight: 700; font-size: 0.9rem; cursor: pointer;
+  }
+  .modal-btn-delete {
+    padding: 10px 28px; border: none; border-radius: 30px;
+    background: var(--pink); color: #fff; font-family: 'Nunito', sans-serif;
+    font-weight: 700; font-size: 0.9rem; cursor: pointer;
+    transition: opacity .2s;
+  }
+  .modal-btn-delete:hover { opacity: .85; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    #screen-main { flex-direction: column; padding: 32px 20px; gap: 32px; }
+    .left-panel { width: 100%; }
+    .right-panel { width: 100%; overflow-x: auto; }
+  }
+  @media (max-width: 520px) {
+    .login-card, .recovery-card, .register-card { padding: 28px 18px 24px; }
+    .home-headline { font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── NAV TABS ─── -->
+<nav class="nav-tabs">
+  <button class="nav-tab active" onclick="goTo('home')">Home</button>
+  <button class="nav-tab" onclick="goTo('login')">Login</button>
+  <button class="nav-tab" onclick="goTo('recovery')">Recuperar</button>
+  <button class="nav-tab" onclick="goTo('register')">Registrarse</button>
+  <button class="nav-tab" onclick="goTo('main')">Dashboard</button>
+</nav>
+
+<!-- ══════════════════════════════
+     SCREEN: HOME
+══════════════════════════════ -->
+<div id="screen-home" class="screen active">
+  <div class="home-logo-top">
+    <!-- Motion icon -->
+    <svg class="logo-icon" viewBox="0 0 44 44" fill="none">
+      <circle cx="22" cy="22" r="20" fill="none" stroke="#E91E8C" stroke-width="3"/>
+      <ellipse cx="22" cy="22" rx="12" ry="20" fill="none" stroke="#00BCD4" stroke-width="2.5" transform="rotate(40 22 22)"/>
+      <circle cx="22" cy="12" r="3.5" fill="#E91E8C"/>
+    </svg>
+  </div>
+
+  <div class="home-blob"></div>
+
+  <div class="home-center">
+    <!-- Phone illustration (SVG) -->
+    <svg class="home-phone-illustration phone-svg" viewBox="0 0 260 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- phone body -->
+      <rect x="50" y="20" width="160" height="300" rx="24" fill="white" stroke="#e0e0e0" stroke-width="2"/>
+      <!-- screen top bar -->
+      <circle cx="130" cy="38" r="5" fill="#e0e0e0"/>
+      <!-- screen content -->
+      <rect x="70" y="60" width="120" height="200" rx="8" fill="#f5f5f5"/>
+      <!-- app cards on screen -->
+      <rect x="80" y="72" width="100" height="44" rx="10" fill="#E91E8C" opacity=".85"/>
+      <rect x="80" y="126" width="100" height="44" rx="10" fill="#00BCD4" opacity=".85"/>
+      <rect x="80" y="180" width="44" height="44" rx="10" fill="#7C4DFF" opacity=".75"/>
+      <rect x="136" y="180" width="44" height="44" rx="10" fill="#E91E8C" opacity=".6"/>
+      <!-- floating icon bubbles -->
+      <circle cx="48" cy="100" r="18" fill="white" stroke="#e0e0e0" stroke-width="1.5"/>
+      <text x="40" y="106" font-size="14" fill="#E91E8C">📞</text>
+      <circle cx="212" cy="140" r="18" fill="white" stroke="#e0e0e0" stroke-width="1.5"/>
+      <text x="204" y="146" font-size="14" fill="#00BCD4">🔄</text>
+      <circle cx="60" cy="220" r="14" fill="white" stroke="#e0e0e0" stroke-width="1.5"/>
+      <text x="52" y="226" font-size="12" fill="#7C4DFF">▶</text>
+      <!-- dashed connector lines -->
+      <line x1="66" y1="100" x2="82" y2="110" stroke="#9C27B0" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <line x1="194" y1="140" x2="178" y2="150" stroke="#00BCD4" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <!-- bottom home bar -->
+      <rect x="110" y="332" width="40" height="4" rx="2" fill="#bdbdbd"/>
+    </svg>
+
+    <div class="home-headline">BIEN<span class="highlight">V</span>ENIDO A</div>
+    <div class="home-subheadline">MONITORING INNOVATION</div>
+  </div>
+
+  <div class="home-footer-nav">
+    <a onclick="goTo('home')">MONITORINGINNOVATION</a>
+    <a class="navy" onclick="alert('GPS CONTROL — próximamente')">GPS CONTROL</a>
+    <a onclick="goTo('main')">Link repo front</a>
+    <a class="navy" onclick="alert('Link repo back')">Link repo back</a>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════
+     SCREEN: LOGIN
+══════════════════════════════ -->
+<div id="screen-login" class="screen">
+  <div class="login-bg-cars"></div>
+  <div class="login-blob-right"></div>
+
+  <div class="login-corner-logo">
+    <svg viewBox="0 0 44 44" width="40" height="40" fill="none">
+      <circle cx="22" cy="22" r="20" fill="none" stroke="#E91E8C" stroke-width="3"/>
+      <ellipse cx="22" cy="22" rx="12" ry="20" fill="none" stroke="#00BCD4" stroke-width="2.5" transform="rotate(40 22 22)"/>
+      <circle cx="22" cy="12" r="3.5" fill="#E91E8C"/>
+    </svg>
+  </div>
+
+  <div class="login-card">
+    <div class="login-brand">
+      <svg viewBox="0 0 56 56" width="56" height="56" fill="none">
+        <circle cx="28" cy="28" r="25" fill="none" stroke="#E91E8C" stroke-width="3.5"/>
+        <ellipse cx="28" cy="28" rx="15" ry="25" fill="none" stroke="#00BCD4" stroke-width="3" transform="rotate(40 28 28)"/>
+        <circle cx="28" cy="14" r="4.5" fill="#E91E8C"/>
+      </svg>
+      <div class="login-brand-divider"></div>
+      <div class="login-brand-text">Manager</div>
+    </div>
+
+    <div class="login-field-group" style="width:100%">
+      <label class="login-label">Usuario</label>
+      <input class="login-input" type="email" id="login-email" placeholder="design@monitontinginnovation.com" value="design@monitontinginnovation.com">
+    </div>
+
+    <div class="login-field-group" style="width:100%">
+      <label class="login-label">Contraseña</label>
+      <input class="login-input" type="password" id="login-pass" placeholder="••••••••••••••" value="••••••••••••••">
+    </div>
+
+    <button class="login-btn-primary" onclick="handleLogin()">Iniciar sesión</button>
+
+    <div class="login-links">
+      <a onclick="goTo('recovery')">Olvide <span class="bold">Mi</span> contraseña</a>
+      <a class="register" onclick="goTo('register')">Registrarse</a>
+    </div>
+
+    <div class="login-bottom-icons">
+      <button class="login-icon-btn" title="Info" style="color:var(--pink)">ⓘ</button>
+      <button class="login-icon-btn" title="Perfil" style="color:var(--cyan)">👤</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════
+     SCREEN: PASSWORD RECOVERY
+══════════════════════════════ -->
+<div id="screen-recovery" class="screen">
+  <div class="recovery-blob-bottom"></div>
+
+  <div class="recovery-card">
+    <div class="login-brand" style="margin-bottom:24px">
+      <svg viewBox="0 0 56 56" width="56" height="56" fill="none">
+        <circle cx="28" cy="28" r="25" fill="none" stroke="#E91E8C" stroke-width="3.5"/>
+        <ellipse cx="28" cy="28" rx="15" ry="25" fill="none" stroke="#00BCD4" stroke-width="3" transform="rotate(40 28 28)"/>
+        <circle cx="28" cy="14" r="4.5" fill="#E91E8C"/>
+      </svg>
+      <div class="login-brand-divider"></div>
+      <div class="login-brand-text">Manager</div>
+    </div>
+
+    <p class="recovery-text">Digite el correo electrónico con el que se registró la cuenta:</p>
+
+    <div class="login-field-group" style="width:100%">
+      <label class="login-label">Email</label>
+      <input class="login-input" type="email" placeholder="demo@gmail.com">
+    </div>
+
+    <button class="login-btn-primary" style="margin:12px 0 0" onclick="showToast('Correo enviado ✓')">Enviar correo</button>
+  </div>
+
+  <button class="back-btn" onclick="goTo('login')">← Volver</button>
+</div>
+
+
+<!-- ══════════════════════════════
+     SCREEN: REGISTER
+══════════════════════════════ -->
+<div id="screen-register" class="screen">
+  <div class="register-blob-bottom"></div>
+
+  <div class="register-card">
+    <div class="login-brand" style="margin-bottom:20px">
+      <svg viewBox="0 0 56 56" width="56" height="56" fill="none">
+        <circle cx="28" cy="28" r="25" fill="none" stroke="#E91E8C" stroke-width="3.5"/>
+        <ellipse cx="28" cy="28" rx="15" ry="25" fill="none" stroke="#00BCD4" stroke-width="3" transform="rotate(40 28 28)"/>
+        <circle cx="28" cy="14" r="4.5" fill="#E91E8C"/>
+      </svg>
+      <div class="login-brand-divider"></div>
+      <div class="login-brand-text">Manager</div>
+    </div>
+
+    <div class="register-name-row">
+      <div class="login-field-group">
+        <label class="login-label">Nombre</label>
+        <input class="login-input" type="text" placeholder="NOMBRE">
+      </div>
+      <span class="plus-icon">+</span>
+      <div class="login-field-group">
+        <label class="login-label">Apellido</label>
+        <input class="login-input" type="text" placeholder="APELLIDO">
+      </div>
+    </div>
+
+    <div class="login-field-group" style="width:100%">
+      <label class="login-label">Correo</label>
+      <input class="login-input" type="email" placeholder="design@monitontinginnovation.com">
+    </div>
+    <div class="login-field-group" style="width:100%">
+      <label class="login-label">Contraseña</label>
+      <input class="login-input" type="password" placeholder="••••••••••••••">
+    </div>
+    <div class="login-field-group" style="width:100%">
+      <label class="login-label">Confirmar Contraseña</label>
+      <input class="login-input" type="password" placeholder="••••••••••••••">
+    </div>
+
+    <p class="register-terms">
+      Al hacer clic en crear cuenta, acepta los términos de las
+      <a href="#">políticas de privacidad</a> y <a href="#">términos del servicio</a>
+    </p>
+
+    <div class="register-footer">
+      <button class="btn-back-pink" onclick="goTo('login')">← Volver</button>
+      <button class="btn-register" onclick="showToast('¡Cuenta creada! ✓'); goTo('login')">Registrar</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════
+     SCREEN: MAIN DASHBOARD
+══════════════════════════════ -->
+<div id="screen-main" class="screen">
+
+  <!-- LEFT: Create card -->
+  <div class="left-panel">
+    <div class="create-card" id="create-card">
+      <div class="create-card-header">
+        <button class="btn-add" onclick="toggleCardState()" title="Agregar">+</button>
+      </div>
+
+      <div class="field-row">
+        <span class="field-icon" id="icon-car">
+          <svg viewBox="0 0 24 24" class="icon-svg" id="svg-car">
+            <!-- car icon -->
+            <path d="M5 11L6.5 6.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11M3 15h18M7 15v2m10-2v2M4 11h16a1 1 0 0 1 1 1v3H3v-3a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <input class="field-input" id="field-marca" type="text" placeholder="Marca">
+      </div>
+
+      <div class="field-row">
+        <span class="field-icon" id="icon-loc">
+          <svg viewBox="0 0 24 24" class="icon-svg" id="svg-loc">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="currentColor"/>
+          </svg>
+        </span>
+        <input class="field-input" id="field-sucursal" type="text" placeholder="Sucursal">
+      </div>
+
+      <div class="field-row">
+        <span class="field-icon" id="icon-user">
+          <svg viewBox="0 0 24 24" class="icon-svg" id="svg-user">
+            <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" fill="currentColor"/>
+          </svg>
+        </span>
+        <input class="field-input" id="field-aspirante" type="text" placeholder="Aspirante">
+      </div>
+
+      <!-- State 0: no buttons (default: + only) -->
+      <!-- State 1: text buttons (Cancelar / Crear) -->
+      <div class="card-actions hidden" id="card-actions-text">
+        <button class="btn-cancel" onclick="cancelCard()">Cancelar</button>
+        <button class="btn-crear" onclick="createEntry()">Crear</button>
+      </div>
+      <!-- State 2: icon buttons (edit mode) -->
+      <div class="card-actions hidden" id="card-actions-icons">
+        <button class="btn-icon-cancel" onclick="cancelCard()" title="Cancelar">✕</button>
+        <button class="btn-icon-confirm" onclick="updateEntry()" title="Confirmar">✓</button>
+      </div>
+    </div>
+
+    <!-- Motion logo -->
+    <div class="motion-logo-bottom">
+      <svg viewBox="0 0 160 48" width="160" height="48">
+        <!-- m -->
+        <text x="0" y="38" font-size="38" font-weight="800" fill="#1A237E" font-family="Rajdhani,sans-serif">m</text>
+        <!-- o with pink/cyan -->
+        <text x="28" y="38" font-size="38" font-weight="800" fill="#1A237E" font-family="Rajdhani,sans-serif">oti</text>
+        <!-- o accent -->
+        <ellipse cx="44" cy="22" rx="8" ry="10" fill="none" stroke="#E91E8C" stroke-width="3" transform="rotate(30 44 22)"/>
+        <text x="70" y="38" font-size="38" font-weight="800" fill="#1A237E" font-family="Rajdhani,sans-serif">on</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- RIGHT: Table -->
+  <div class="right-panel">
+    <table class="data-table" id="data-table">
+      <thead>
+        <tr>
+          <th>Marca</th>
+          <th>Sucursal</th>
+          <th>Aspirante</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+        <!-- rows injected by JS -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Delete confirmation modal -->
+<div class="modal-overlay" id="delete-modal">
+  <div class="modal-box">
+    <div class="modal-title">¿Eliminar registro?</div>
+    <p class="modal-sub">Esta acción no se puede deshacer.</p>
+    <div class="modal-btns">
+      <button class="modal-btn-cancel" onclick="closeModal()">Cancelar</button>
+      <button class="modal-btn-delete" onclick="confirmDelete()">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script>
+// ─── DATA ───
+let entries = [
+  { id:1, marca:'Mazda',      sucursal:'Chapinero',  aspirante:'David Sandoval' },
+  { id:2, marca:'Mercedes',   sucursal:'Localidad',  aspirante:'Nombre Apellido' },
+  { id:3, marca:'Ford',       sucursal:'Localidad',  aspirante:'Nombre Apellido' },
+  { id:4, marca:'Renault',    sucursal:'Localidad',  aspirante:'Nombre Apellido' },
+  { id:5, marca:'Chevrolet',  sucursal:'Localidad',  aspirante:'Nombre Apellido' },
+  { id:6, marca:'Volkswagen', sucursal:'Localidad',  aspirante:'Nombre Apellido' },
+  { id:7, marca:'Susuki',     sucursal:'Localidad',  aspirante:'Nombre Apellido' },
+  { id:8, marca:'KIA',        sucursal:'Localidad',  aspirante:'Nombre Apellido' },
+  { id:9, marca:'Hyundai',    sucursal:'Localidad',  aspirante:'Nombre Apellido' },
+  {id:10, marca:'Honda',      sucursal:'Localidad',  aspirante:'Nombre Apellido' },
+  {id:11, marca:'Volvo',      sucursal:'Localidad',  aspirante:'Nombre Apellido' },
+];
+let nextId = 12;
+let cardState = 0; // 0=default, 1=crear, 2=editar
+let editingId = null;
+let deleteTargetId = null;
+
+// ─── NAVIGATION ───
+function goTo(screen) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + screen).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach((t,i) => {
+    const screens = ['home','login','recovery','register','main'];
+    t.classList.toggle('active', screens[i] === screen);
+  });
+  if (screen === 'main') renderTable();
+}
+
+// ─── LOGIN ───
+function handleLogin() {
+  const e = document.getElementById('login-email').value;
+  const p = document.getElementById('login-pass').value;
+  if (e && p) { showToast('¡Bienvenido! ✓'); setTimeout(()=>goTo('main'),800); }
+  else showToast('Completa los campos');
+}
+
+// ─── CARD STATES ───
+function setCardState(state) {
+  cardState = state;
+  document.getElementById('card-actions-text').className = 'card-actions ' + (state===1 ? 'text-btns' : 'hidden');
+  document.getElementById('card-actions-icons').className = 'card-actions ' + (state===2 ? 'icon-btns' : 'hidden');
+
+  const iconCar = document.getElementById('svg-car');
+  const iconLoc = document.getElementById('svg-loc');
+  const iconUser = document.getElementById('svg-user');
+  const pink = '#E91E8C';
+  const gray = '#BDBDBD';
+  if (state === 0) {
+    iconCar.closest('.field-icon').style.color = gray;
+    iconLoc.closest('.field-icon').style.color = gray;
+    iconUser.closest('.field-icon').style.color = gray;
+  } else {
+    iconCar.closest('.field-icon').style.color = pink;
+    iconLoc.closest('.field-icon').style.color = pink;
+    iconUser.closest('.field-icon').style.color = pink;
+  }
+}
+
+function toggleCardState() {
+  if (cardState === 0) {
+    setCardState(1);
+    document.getElementById('field-marca').value = '';
+    document.getElementById('field-sucursal').value = '';
+    document.getElementById('field-aspirante').value = '';
+    document.getElementById('field-marca').focus();
+  }
+}
+
+function cancelCard() {
+  setCardState(0);
+  editingId = null;
+  document.getElementById('field-marca').value = 'Mazda';
+  document.getElementById('field-sucursal').value = 'Chapinero';
+  document.getElementById('field-aspirante').value = 'David Sandoval';
+}
+
+function createEntry() {
+  const m = document.getElementById('field-marca').value.trim();
+  const s = document.getElementById('field-sucursal').value.trim();
+  const a = document.getElementById('field-aspirante').value.trim();
+  if (!m || !s || !a) { showToast('Completa todos los campos'); return; }
+  entries.unshift({ id: nextId++, marca: m, sucursal: s, aspirante: a });
+  setCardState(0);
+  renderTable();
+  showToast('Registro creado ✓');
+  cancelCard();
+}
+
+function editEntry(id) {
+  const entry = entries.find(e => e.id === id);
+  if (!entry) return;
+  editingId = id;
+  document.getElementById('field-marca').value = entry.marca;
+  document.getElementById('field-sucursal').value = entry.sucursal;
+  document.getElementById('field-aspirante').value = entry.aspirante;
+  setCardState(2);
+  renderTable();
+}
+
+function updateEntry() {
+  const m = document.getElementById('field-marca').value.trim();
+  const s = document.getElementById('field-sucursal').value.trim();
+  const a = document.getElementById('field-aspirante').value.trim();
+  if (!m || !s || !a) { showToast('Completa todos los campos'); return; }
+  const entry = entries.find(e => e.id === editingId);
+  if (entry) { entry.marca = m; entry.sucursal = s; entry.aspirante = a; }
+  setCardState(0);
+  editingId = null;
+  renderTable();
+  showToast('Registro actualizado ✓');
+  cancelCard();
+}
+
+// ─── DELETE ───
+function deleteEntry(id) {
+  deleteTargetId = id;
+  document.getElementById('delete-modal').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('delete-modal').classList.remove('open');
+  deleteTargetId = null;
+}
+function confirmDelete() {
+  entries = entries.filter(e => e.id !== deleteTargetId);
+  closeModal();
+  renderTable();
+  showToast('Registro eliminado');
+}
+
+// ─── RENDER TABLE ───
+function renderTable() {
+  const tbody = document.getElementById('table-body');
+  tbody.innerHTML = '';
+  entries.forEach(entry => {
+    const isEditing = entry.id === editingId;
+    const tr = document.createElement('tr');
+    const activeClass = isEditing ? '' : 'inactive';
+    tr.innerHTML = `
+      <td>${entry.marca}</td>
+      <td>${entry.sucursal}</td>
+      <td>${entry.aspirante}</td>
+      <td>
+        <div class="row-actions">
+          <button class="btn-edit-row ${isEditing ? '' : ''}" onclick="editEntry(${entry.id})" title="Editar">✏️</button>
+          <button class="btn-delete-row" onclick="deleteEntry(${entry.id})" title="Eliminar">⊖</button>
+        </div>
+      </td>`;
+    if (isEditing) tr.style.background = '#fff8fd';
+    tbody.appendChild(tr);
+  });
+}
+
+// ─── TOAST ───
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ─── INIT ───
+setCardState(0);
+cancelCard();
+renderTable();
+
+// Icons initial color
+document.querySelectorAll('.field-icon').forEach(el => el.style.color = '#BDBDBD');
+</script>
+</body>
+</html>

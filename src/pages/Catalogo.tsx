@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { motion } from "framer-motion";
 import { vehiclesApi } from "../api/vehicles";
 import type { Vehicle } from "../types";
 import { useIsMobile } from "../hooks/useIsMobile";
@@ -53,10 +54,16 @@ export default function Catalogo() {
           Aún no hay vehículos en el catálogo.
         </p>
       ) : (
-        items.map((v) => {
+        items.map((v, idx) => {
           const isSel = selected.has(v.id);
           return (
-            <article key={v.id} className="m-catcard">
+            <motion.article
+              key={v.id}
+              className="m-catcard"
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, delay: 0.32 + idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
+            >
               <img className="m-catcard-img" src={v.img} alt={`${v.brand} ${v.location}`} loading="lazy" />
               <div className="m-catcard-foot">
                 <div className="m-catcard-name">{v.brand}</div>
@@ -72,7 +79,7 @@ export default function Catalogo() {
                   </svg>
                 </button>
               </div>
-            </article>
+            </motion.article>
           );
         })
       )}

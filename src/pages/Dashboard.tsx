@@ -293,10 +293,10 @@ export default function Dashboard() {
               <table className="m-table">
                 <thead>
                   <tr>
-                    <th style={{ width: "30%" }}>Marca</th>
-                    <th style={{ width: "30%" }}>Sucursal</th>
-                    <th style={{ width: "30%" }}>Aspirante</th>
-                    <th style={{ width: "10%" }}></th>
+                    <th style={{ width: "26%" }}>Marca</th>
+                    <th style={{ width: "26%" }}>Sucursal</th>
+                    <th style={{ width: "28%" }}>Aspirante</th>
+                    <th style={{ width: "20%" }} aria-label="Acciones"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -305,13 +305,13 @@ export default function Dashboard() {
                       <td title={v.brand}>{v.brand}</td>
                       <td title={v.location}>{v.location}</td>
                       <td title={v.applicant}>{v.applicant}</td>
-                      <td>
+                      <td className="m-cell-actions">
                         {isAdmin && (
                           <div className="m-row-actions">
-                            <button onClick={() => openEdit(v)} aria-label="Editar">
+                            <button onClick={() => openEdit(v)} aria-label="Editar" title="Editar">
                               <img src="/assets/listos-1.svg" alt="" />
                             </button>
-                            <button onClick={() => setDeleteTarget(v.id)} aria-label="Eliminar">
+                            <button onClick={() => setDeleteTarget(v.id)} aria-label="Eliminar" title="Eliminar">
                               <img src="/assets/exclude-1.svg" alt="" />
                             </button>
                           </div>

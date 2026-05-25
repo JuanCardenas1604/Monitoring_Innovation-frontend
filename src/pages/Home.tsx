@@ -7,8 +7,8 @@ import { useIsMobile } from "../hooks/useIsMobile";
 import Splash from "./mobile/Splash";
 
 const externalLinks = [
-  { label: "Repositorio Frontend", url: "#", navy: false },
-  { label: "Repositorio Backend", url: "#", navy: true },
+  { label: "Repositorio Frontend", url: "https://github.com/JuanCardenas1604/Monitoring_Innovation-frontend.git", navy: false },
+  { label: "Repositorio Backend", url: "https://github.com/JuanCardenas1604/Monitoring-Innovation-Backend.git", navy: true },
   { label: "MONITORINGINNOVATION", url: "https://monitoringinnovation.com/", navy: false },
   { label: "GPS CONTROL", url: "https://gpscontrol.co/", navy: true },
 ];
